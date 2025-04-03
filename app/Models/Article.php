@@ -10,5 +10,6 @@ class Article extends Model
         'title',
         'subtitle',
         'body',
+        'image', // ✅ Assicurati che "image" sia presente qui
     ];
 }

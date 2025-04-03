@@ -9,7 +9,7 @@
                     </div>
                 @endif
 
-                <form class="shadow p-4 rounded-3 bg-light" wire:submit.prevent="updateArticle">
+                <form class="shadow p-4 rounded-3 bg-light" wire:submit.prevent="updateArticle" enctype="multipart/form-data">
 
                     <div class="mb-3">
                         <label for="title" class="form-label">Titolo Articolo</label>
@@ -28,6 +28,27 @@
                         <textarea wire:model="body" class="form-control" id="body" cols="30" rows="10"></textarea>
                         @error('body') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Immagine (facoltativa)</label>
+                        <input wire:model="image" type="file" class="form-control" id="image">
+                        @error('image') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    @if ($image)
+                        <div class="mb-3">
+                            <label class="form-label">Anteprima nuova immagine:</label><br>
+                            <img src="{{ $image->temporaryUrl() }}" class="img-fluid rounded shadow" style="max-height: 200px;">
+                        </div>
+                    @elseif ($imagePath)
+                        <div class="mb-3">
+                            <label class="form-label">Immagine attuale:</label><br>
+                            <img src="{{ asset('storage/' . $imagePath) }}" class="img-fluid rounded shadow" style="max-height: 200px;">
+                            <button wire:click="removeImage" type="button" class="btn btn-sm btn-outline-danger mt-2">
+                                Rimuovi immagine
+                            </button>
+                        </div>
+                    @endif
 
                     <button type="submit" class="btn btn-primary">Aggiorna Articolo</button>
                 </form>
